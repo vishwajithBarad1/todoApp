@@ -38,6 +38,7 @@ function Home (){
             await axios.post("http://localhost:4000/todos", {title, description})
             setTitle("");
             setDescription(""); 
+            window.location.reload();
         } catch (error) {
             console.error("Error adding todo:", error);
         }
