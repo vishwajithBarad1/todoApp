@@ -55,7 +55,7 @@ function Home (){
 
     return (
         <div className="todoContainer">
-            <h1 className="todoContainerTitle">My Todo List</h1>
+            <h1 className="todoContainerTitle">My Todo List</h1>    
             <div className="createTodoContainer">
                 <input 
                 className="title" 
@@ -71,11 +71,11 @@ function Home (){
                 />
                 <button className = "createTodo"onClick={()=>{createTodo(title,description)}}>Create Todo</button>
             </div>
-        
+                <hr className="line"/>
             <div className="todos">
             {todos.map((todo, index) => (
                 <div key={index} className="todoItem">
-                    {editId==todo._id?
+                    {editId===todo._id?
                         <div>
                             <input 
                             className="ediTitle" 
@@ -95,11 +95,13 @@ function Home (){
                             <p className="todoDescription">{todo.description}</p>
                         </div>
                     }
-                    {editId==todo._id?
+                    {editId===todo._id?
                     <span><button className="todoCancel" onClick={()=>{window.location.reload()}}>Cancel</button></span>
                    :<span><button className="todoComplete" onClick={()=>{handleComplete(todo._id)}}>Complete</button></span>
                     }
-                    <span><button className="editTodo" onClick={()=>{handleEdit(todo._id)}}>{editId==todo._id?"submit":"Edit Todo"}</button></span>
+                    {editId===todo._id?<span><button className="submitTodo" onClick={()=>{handleEdit(todo._id)}}>submit</button></span>
+                    :<span><button className="editTodo" onClick={()=>{handleEdit(todo._id)}}>Edit Todo</button></span>}
+                    
                 </div>
             ))}
             </div>
