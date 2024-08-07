@@ -13,40 +13,49 @@ function Home (){
     function handleDescriptionEvent(event) {setDescription(event.target.value);}
     
     async function handleComplete(id){
-        await axios.put(`http://localhost:4000/todos?id=${id}`,{
-            task:"complete"
-        });
-        window.location.reload();
+        try {
+            await axios.put(`/api/todos?id=${id}`, {
+                task: "complete"
+            });
+            getTodos();
+        } catch (error) {
+            console.error("Error completing todo:", error);
+        }
     }
 
     async function handleEdit(id){
         if(!editId){
             setEditId(id);
         }else{
-            await axios.put(`http://localhost:4000/todos?id=${id}`,{
+            await axios.put(`/api/todos?id=${id}`,{
                 title,
                 description
             });
             setTitle("");
             setDescription(""); 
-            window.location.reload();
+            getTodos();
         }
     }
 
     async function createTodo(title, description) {
         try {
-            await axios.post("http://localhost:4000/todos", {title, description})
+            await axios.post("/api/todos", {title, description})
             setTitle("");
             setDescription(""); 
-            window.location.reload();
+            getTodos();
         } catch (error) {
             console.error("Error adding todo:", error);
         }
     }
 
     const getTodos = async ()=>{
-        const response = await axios.get('http://localhost:4000/todos');
-        setTodos(response.data.data)
+        try {
+            const response = await axios.get('/api/todos');
+            setTodos(response.data.data)
+        } catch (error) {
+            console.error("Error completing todo:", error);
+            // Optionally, show an error message to the user
+        }
     }
 
     useEffect(()=>{
@@ -96,7 +105,7 @@ function Home (){
                         </div>
                     }
                     {editId===todo._id?
-                    <span><button className="todoCancel" onClick={()=>{window.location.reload()}}>Cancel</button></span>
+                    <span><button className="todoCancel" onClick={()=>{getTodos()}}>Cancel</button></span>
                    :<span><button className="todoComplete" onClick={()=>{handleComplete(todo._id)}}>Complete</button></span>
                     }
                     {editId===todo._id?<span><button className="submitTodo" onClick={()=>{handleEdit(todo._id)}}>submit</button></span>
