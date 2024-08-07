@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { mongooseUrl } = require("../constants/constVar");
+const mongooseUrl = process.env.mongooseUrl
 
 mongoose.connect(mongooseUrl);
 

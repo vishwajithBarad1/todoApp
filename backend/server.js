@@ -1,5 +1,5 @@
-const {PORT} = require("./constants/constVar");
-
+require('dotenv').config();
+const PORT = process.env.PORT
 const todoController = require("./controllers/todoController")
 const express = require("express");
 
