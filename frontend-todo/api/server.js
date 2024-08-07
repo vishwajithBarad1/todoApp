@@ -1,5 +1,4 @@
 require('dotenv').config();
-const PORT = process.env.PORT
 const todoController = require("./controllers/todoController")
 const express = require("express");
 
@@ -8,10 +7,15 @@ const mongoose = require("./db/connectDb")
 const app = express();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors({origin: 'http://localhost:3000'}))
 
-app.get("api/todos",todoController.getTodo);
-app.post("api/todos",todoController.createTodo);
-app.put("api/todos",todoController.updateTodo)
+app.get("/todos",todoController.getTodo);
+app.post("/todos",todoController.createTodo);
+app.put("/todos",todoController.updateTodo)
 
-module.exports = app
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+
+module.exports = app;
